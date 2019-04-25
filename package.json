@@ -1,0 +1,35 @@
+{
+  "name": "esy-gobject-introspection",
+  "version": "1.60.1000",
+  "description": "Gobject Introspection (gir) packaged for esy",
+  "esy": {
+    "buildEnv": {
+      "GI_SCANNER_DISABLE_CACHE": "1"
+    },
+    "exportedEnv": {
+      "PKG_CONFIG_PATH": {
+        "scope": "global",
+        "val": "#{self.lib / 'pkgconfig'} $PKG_CONFIG_PATH"
+      }
+    },
+    "build": [
+      "mkdir -p #{self.install / 'var' / 'tmp'}",
+      "meson setup --prefix #{self.install} #{self.target_dir} -Dglib_src_dir=#{glib.root}",
+      "ninja -C #{self.target_dir}"
+    ],
+    "install": [
+      "meson install -C #{self.target_dir}"
+    ]
+  },
+  "dependencies": {
+    "@esy-ocaml/libffi": "prometheansacrifice/libffi#9f60bed74b01fefb5f26b49806108cdfe0ed6384",
+    "meson": "prometheansacrifice/esy-meson#73d7c243b3d6bd3c655de2a09ab07fc250b37ed1",
+    "ninja": "prometheansacrifice/esy-ninja#9c1ba7876d8ecdebc31117178b8cc56e441edcf3",
+    "glib": "prometheansacrifice/esy-glib#f1491b67abdf758a0df50789198bd2b6951a9537",
+    "gettext": "prometheansacrifice/esy-gettext#dc47b754bf95106eb663eb0511e3a092dded41c4",
+    "pkg-config": "esy-packages/pkg-config#4790fb74124f66b034c34d3f7129044d33e6ef73"
+  },
+  "resolutions": {
+    "esy-python": "esy-packages/esy-python#4229568c55ab77a315963b255e44cf0f43223c96"
+  }
+}
